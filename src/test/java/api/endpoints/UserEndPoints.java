@@ -7,43 +7,40 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class UserEndPoints {
-    public static Response createUser(User payload){
+    public static Response createUser(User payload) {
         Response response = given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .body(payload)
-        .when()
-            .post(Routes.postUrl);
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(payload)
+                .when()
+                .post(Routes.userUrl);
 
         return response;
     }
 
-    public static Response readUser(String userName){
+    public static Response readUser(String userName) {
         Response response = given()
-            .pathParam("username", userName)
-        .when()
-            .post(Routes.postUrl);
+                .when()
+                .get(Routes.userUrl + "/" + userName);
 
         return response;
     }
 
-    public static Response updateUser(String userName, User payload){
-        Response response = given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .pathParam("username", userName)
-            .body(payload)
-        .when()
-            .put(Routes.updateUrl);
+    public static Response updateUser(String userName, User payload) {
+        Response response = given().log().all()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(payload)
+                .when()
+                .put(Routes.userUrl + "/" + userName);
 
         return response;
     }
 
-    public static Response deleteUser(String userName){
+    public static Response deleteUser(String userName) {
         Response response = given()
-            .pathParam("username", userName)
-        .when()
-            .delete(Routes.deleteUrl);
+                .when()
+                .delete(Routes.userUrl + "/" + userName);
 
         return response;
     }
